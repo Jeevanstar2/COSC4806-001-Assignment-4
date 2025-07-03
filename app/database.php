@@ -1,21 +1,14 @@
 <?php
-require_once __DIR__ . '/core/config.php';
+$host = "c0tme.h.filess.io";
+$port = 61000;
+$dbname = "COSC4806001JS2_figurewhom";
+$username = "COSC4806001JS2_figurewhom";
+$password = "3d3609d66a573a2d6fbfc82643ef3b46b035d711";
 
-function db_connect() {
-    $dsn = sprintf(
-        'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
-        DB_HOST,
-        DB_PORT,
-        DB_DATABASE
-    );
-    try {
-        $pdo = new PDO($dsn, DB_USER, DB_PASS, [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]);
-        return $pdo;
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        die('Database connection failed.');
-    }
+try {
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
+?>
