@@ -1,6 +1,5 @@
 <?php
-require_once 'app/database.php';
-require_once 'app/models/Reminder.php';
+require_once __DIR__ . '/../models/ReminderModel.php';
 
 class Reminder extends Controller {
     private $reminder;
@@ -12,8 +11,7 @@ class Reminder extends Controller {
             exit();
         }
 
-        global $pdo;
-        $this->reminder = new ReminderModel($pdo); // Avoid naming conflict
+        $this->reminder = new ReminderModel(); // Use your model directly
     }
 
     public function index() {
@@ -55,5 +53,3 @@ class Reminder extends Controller {
         header("Location: index.php?action=reminder");
     }
 }
-class ReminderModel extends Reminder {} // alias for use in constructor
-?>

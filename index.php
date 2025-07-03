@@ -11,9 +11,11 @@ define('VIEWS', __DIR__ . DS . 'app' . DS . 'views' . DS);
 
 require_once 'app/core/Controller.php';
 require_once 'app/core/App.php';
-
-// Setup DB
 require_once 'app/database.php';
+
+foreach (glob('app/controllers/*.php') as $file) {
+    require_once $file;
+}
 
 $app = new App();
 
