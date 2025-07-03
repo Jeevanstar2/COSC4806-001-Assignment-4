@@ -1,34 +1,16 @@
-<?php
-$error    = $error    ?? '';
-$username = $username ?? '';
-?>
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="/public/css/style.css">
-	<title>Login</title>
+    <title>Login</title>
 </head>
 <body>
-	<h2>Login</h2>
-	<?php if ($error): ?>
-		<p class="error"><?= htmlspecialchars($error) ?></p>
-	<?php endif; ?>
-
-	<form method="post" action="/Verify">
-		<label>Username</label>
-		<input
-			type="text"
-			name="username"
-			required
-			value="<?= htmlspecialchars($username) ?>"
-		>
-
-		<label>Password</label>
-		<input type="password" name="password" required>
-
-		<button type="submit">Login</button>
-	</form>
-
-	<p>No account ? <a href="/Register">Register here</a></p>
+    <h2>Login Page</h2>
+    <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+    <form method="POST" action="index.php?action=verify">
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
+    <p><a href="index.php?action=register">Create a new account</a></p>
 </body>
 </html>

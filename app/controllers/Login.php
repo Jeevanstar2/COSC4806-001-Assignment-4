@@ -1,8 +1,10 @@
 <?php
 class Login extends Controller {
-		public function index(array $data = []): void {
-				$this->view('login/index', $data);
+		public function index(): void {
+				$this->view('login/index');
 		}
+
+
 
 		public function verify(): void {
 				if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
