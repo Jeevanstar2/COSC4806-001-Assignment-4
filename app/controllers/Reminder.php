@@ -1,55 +1,63 @@
 <?php
 require_once 'app/models/ReminderModel.php';
-class Reminder extends Controller 
-{
-    private $model;
-    public function __construct() 
-    {
-        if (!isset($_SESSION['user_id'])) 
-        {
+
+class Reminder extends Controller {
+    private $reminderModel;
+
+    public function __construct() {
+        if (!isset($_SESSION['user_id'])) {
             header("Location: index.php?action=login");
             exit();
         }
-        $this->model = new ReminderModel();
+
+        $this->reminderModel = new ReminderModel();
     }
-    public function index() 
-    {
-        $reminders = $this->model->getAllByUser($_SESSION['user_id']);
+
+    public function index() {
+        $userId = $_SESSION['user_id'];
+        $reminders = $this->reminderModel->getAllByUser($userId);
         $this->view('reminders/index', ['reminders' => $reminders]);
     }
-    public function create() 
-    {
+
+    public function create() {
         $this->view('reminders/create');
     }
-    public function store() 
-    {
+
+    public function store() {
         $subject = trim($_POST['subject']);
         if (!empty($subject)) {
-            $this->model->create($_SESSION['user_id'], $subject);
+            $this->reminderModel->create($_SESSION['user_id'], $subject);
         }
         header("Location: index.php?action=reminder");
+        exit();
     }
-    public function edit() 
-    {
-        $id = $_GET['id'] ?? 0;
-        $reminder = $this->model->get($id, $_SESSION['user_id']);
+
+    public function edit($id) {
+        $reminder = $this->reminderModel->get($id, $_SESSION['user_id']);
         if (!$reminder) {
-            echo "Reminder not found.";
-            return;
+            die("Reminder not found.");
         }
         $this->view('reminders/edit', ['reminder' => $reminder]);
     }
-    public function update() 
-    {
-        $id = $_POST['id'];
-        $subject = $_POST['subject'];
-        $this->model->update($id, $_SESSION['user_id'], $subject);
+
+    public function update($id) {
+        $subject = trim($_POST['subject']);
+        if (!empty($subject)) {
+            $this->reminderModel->update($id, $_SESSION['user_id'], $subject);
+        }
         header("Location: index.php?action=reminder");
+        exit();
     }
-    public function delete() 
-    {
-        $id = $_GET['id'] ?? 0;
-        $this->model->delete($id, $_SESSION['user_id']);
+
+    public function delete($id) {
+        $this->reminderModel->delete($id, $_SESSION['user_id']);
         header("Location: index.php?action=reminder");
+        exit();
+    }
+
+    public function complete($id) {
+        $this->reminderModel->markComplete($id, $_SESSION['user_id']);
+        header("Location: index.php?action=reminder");
+        exit();
     }
 }

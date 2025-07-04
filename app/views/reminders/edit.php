@@ -9,15 +9,15 @@
 
     <form method="POST" action="index.php?action=update_reminder&id=<?= $reminder['id'] ?>">
         <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" value="<?= htmlspecialchars($reminder['subject']) ?>" required><br><br>
+        <input type="text" name="subject" id="subject" value="<?= htmlspecialchars($reminder['subject']) ?>" required>
 
         <label for="status">Status:</label>
         <select name="status" id="status">
             <option value="pending" <?= $reminder['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
             <option value="completed" <?= $reminder['status'] === 'completed' ? 'selected' : '' ?>>Completed</option>
-        </select><br><br>
+        </select>
 
-        <button type="submit">Update</button>
+        <button type="submit">Update Reminder</button>
     </form>
 
     <p><a href="index.php?action=reminder">Back to Reminders</a></p>

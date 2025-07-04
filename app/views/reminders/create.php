@@ -9,9 +9,9 @@
 
     <form method="POST" action="index.php?action=store_reminder">
         <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" required><br><br>
+        <input type="text" name="subject" id="subject" required>
 
-        <button type="submit">Create</button>
+        <button type="submit">Save Reminder</button>
     </form>
 
     <p><a href="index.php?action=reminder">Back to Reminders</a></p>
