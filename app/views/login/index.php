@@ -1,4 +1,3 @@
-<?php if (!isset($error)) $error = ''; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +7,11 @@
 <body>
     <h2>Login Page</h2>
 
-    <?php if (!empty($error)): ?>
-        <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
+    <?php if (!empty($error)) echo "<p style='color:red;'>".htmlspecialchars($error)."</p>"; ?>
 
     <form method="POST" action="index.php?action=verify">
-        <label>Username: <input type="text" name="username" required></label><br><br>
-        <label>Password: <input type="password" name="password" required></label><br><br>
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
         <button type="submit">Login</button>
     </form>
 
