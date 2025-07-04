@@ -1,34 +1,35 @@
-body 
-{
+body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
   padding: 20px;
 }
-h2, h3 
-{
+
+h2, h3 {
   color: #333;
 }
-form 
-{
+
+form {
   background-color: #fff;
   padding: 15px;
   border: 1px solid #ccc;
   max-width: 400px;
   border-radius: 5px;
 }
+
 input[type="text"],
 input[type="password"],
+select,
 button,
-a.button 
-{
+a.button {
   display: block;
   margin-top: 10px;
   padding: 10px;
   width: 100%;
   box-sizing: border-box;
 }
-button, a.button 
-{
+
+button,
+a.button {
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -37,25 +38,59 @@ button, a.button
   border-radius: 4px;
   cursor: pointer;
 }
-button:hover, a.button:hover 
-{
+
+button:hover,
+a.button:hover {
   background-color: #45a049;
 }
-.error-msg 
-{
+
+.error-msg {
   color: red;
   font-weight: bold;
   margin-bottom: 15px;
 }
-a 
-{
+
+a {
   color: #0066cc;
 }
-.reminder-box 
-{
+
+.reminder-box {
   background-color: #e9f5ff;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
   border-left: 5px solid #2196F3;
+  border-radius: 4px;
+}
+
+.reminder-box.completed {
+  background-color: #e0ffe0;
+  border-left-color: #28a745;
+}
+
+.reminder-actions {
+  margin-top: 10px;
+}
+
+.reminder-actions a {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
   border-radius: 3px;
+  margin-right: 5px;
+}
+
+.reminder-actions a.delete {
+  background-color: #dc3545;
+}
+
+.reminder-actions a:hover {
+  opacity: 0.9;
+}
+
+.timestamp {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 8px;
 }

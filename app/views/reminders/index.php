@@ -6,9 +6,13 @@
 </head>
 <body>
     <h2>Your Reminders</h2>
-    <p><a href="index.php?action=create_reminder">Add a Reminder</a> | 
-       <a href="index.php?action=home">Home</a> | 
-       <a href="index.php?action=logout">Logout</a></p>
+
+    <p>
+        <a href="index.php?action=create_reminder">+ New Reminder</a> |
+        <a href="index.php?action=home">Home</a> |
+        <a href="index.php?action=logout">Logout</a>
+    </p>
+
     <?php if (empty($reminders)): ?>
         <p>No reminders found.</p>
     <?php else: ?>
@@ -17,6 +21,8 @@
                 <tr>
                     <th>Subject</th>
                     <th>Created At</th>
+                    <th>Status</th>
+                    <th>Deleted At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -25,9 +31,14 @@
                     <tr>
                         <td><?= htmlspecialchars($reminder['subject']) ?></td>
                         <td><?= htmlspecialchars($reminder['created_at']) ?></td>
+                        <td><?= htmlspecialchars($reminder['status']) ?></td>
+                        <td><?= $reminder['deleted_at'] ?? '-' ?></td>
                         <td>
                             <a href="index.php?action=edit_reminder&id=<?= $reminder['id'] ?>">Edit</a> |
                             <a href="index.php?action=delete_reminder&id=<?= $reminder['id'] ?>" onclick="return confirm('Delete this reminder?')">Delete</a>
+                            <?php if ($reminder['status'] !== 'completed'): ?>
+                                | <a href="index.php?action=update_status&id=<?= $reminder['id'] ?>&status=completed">Mark Completed</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
