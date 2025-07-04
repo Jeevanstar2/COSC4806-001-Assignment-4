@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../database.php';
 
-class Reminder {
+class ReminderModel {
     private $db;
 
     public function __construct() {
@@ -14,7 +14,7 @@ class Reminder {
     }
 
     public function getAllByUser($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM reminders WHERE user_id = :uid");
+        $stmt = $this->db->prepare("SELECT * FROM reminders WHERE user_id = :uid ORDER BY created_at DESC");
         $stmt->execute(['uid' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -27,7 +27,7 @@ class Reminder {
 
     public function update($id, $userId, $subject) {
         $stmt = $this->db->prepare("UPDATE reminders SET subject = :subject WHERE id = :id AND user_id = :uid");
-        return $stmt->execute(['id' => $id, 'uid' => $userId, 'subject' => $subject]);
+        return $stmt->execute(['subject' => $subject, 'id' => $id, 'uid' => $userId]);
     }
 
     public function delete($id, $userId) {
