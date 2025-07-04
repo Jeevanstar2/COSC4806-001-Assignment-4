@@ -14,7 +14,7 @@ class ReminderModel {
     }
 
     public function getAllByUser($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM reminders WHERE user_id = :uid");
+        $stmt = $this->db->prepare("SELECT * FROM reminders WHERE user_id = :uid ORDER BY id DESC");
         $stmt->execute(['uid' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
