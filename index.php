@@ -1,31 +1,15 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
-define('VIEWS', __DIR__ . DS . 'app' . DS . 'views' . DS);
-define('MODELS', __DIR__ . DS . 'app' . DS . 'models' . DS);
+define('ROOT', __DIR__ . DS);
+define('APP', ROOT . 'app' . DS);
+define('VIEWS', APP . 'views' . DS);
+define('MODELS', APP . 'models' . DS);
 
-// Autoloader for controllers and models
-spl_autoload_register(function ($class) {
-    $paths = ['app/controllers/', 'app/models/'];
-    foreach ($paths as $path) {
-        $file = $path . $class . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-            return;
-        }
-    }
-});
-
-// Core files
-require_once 'app/core/Controller.php';
-require_once 'app/core/App.php';
-require_once 'app/database.php';
+require_once APP . 'core/Controller.php';
+require_once APP . 'core/App.php';
+require_once APP . 'database.php';
 
 $app = new App();
 
@@ -33,67 +17,44 @@ $action = $_GET['action'] ?? 'login';
 
 switch ($action) {
     case 'login':
-        $controller = new Login();
-        $controller->index();
+        (new Login())->index();
         break;
-
     case 'verify':
-        $controller = new Verify();
-        $controller->index();
+        (new Verify())->index();
         break;
-
     case 'register':
-        $controller = new Register();
-        $controller->index();
+        (new Register())->index();
         break;
-
     case 'store':
-        $controller = new Register();
-        $controller->store();
+        (new Register())->store();
         break;
-
     case 'logout':
-        $controller = new Logout();
-        $controller->index();
+        (new Logout())->index();
         break;
-
     case 'home':
-        $controller = new Home();
-        $controller->index();
+        (new Home())->index();
         break;
-
-    case 'reminder':
-        $controller = new Reminder();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $actionType = $_POST['action_type'] ?? '';
-            $id = $_POST['id'] ?? null;
-
-            if ($actionType === 'create') {
-                $controller->store();
-            } elseif ($actionType === 'update' && $id) {
-                $controller->update($id);
-            } elseif ($actionType === 'delete' && $id) {
-                $controller->delete($id);
-            } else {
-                $controller->index();
-            }
-        } elseif (isset($_GET['subaction'])) {
-            $subaction = $_GET['subaction'];
-            $id = $_GET['id'] ?? null;
-
-            if ($subaction === 'create') {
-                $controller->create();
-            } elseif ($subaction === 'edit' && $id) {
-                $controller->edit($id);
-            } else {
-                $controller->index();
-            }
-        } else {
-            $controller->index();
-        }
+    case 'reminders':
+        (new Reminder())->index();
         break;
-
+    case 'reminder-create':
+        (new Reminder())->create();
+        break;
+    case 'reminder-store':
+        (new Reminder())->store();
+        break;
+    case 'reminder-edit':
+        $id = $_GET['id'] ?? null;
+        (new Reminder())->edit($id);
+        break;
+    case 'reminder-update':
+        $id = $_GET['id'] ?? null;
+        (new Reminder())->update($id);
+        break;
+    case 'reminder-delete':
+        $id = $_GET['id'] ?? null;
+        (new Reminder())->delete($id);
+        break;
     default:
         echo "404 Not Found";
-        break;
 }
