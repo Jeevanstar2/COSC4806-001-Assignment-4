@@ -2,7 +2,6 @@
     <a href="index.php?action=reminder">Reminders</a>
 <?php endif; 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>

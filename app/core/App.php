@@ -1,13 +1,14 @@
 <?php
-class App {
+class App 
+{
     protected $controller = 'Home';
     protected $method = 'index';
     protected $params = [];
-
-    public function __construct() {
+    public function __construct() 
+    {
         $action = $_GET['action'] ?? 'login';
-
-        switch ($action) {
+        switch ($action) 
+        {
             case 'login':
                 $this->controller = 'Login';
                 $this->method = 'index';
@@ -63,13 +64,15 @@ class App {
                 echo "404 Not Found";
                 return;
         }
-
         $file = 'app/controllers/' . $this->controller . '.php';
-        if (file_exists($file)) {
+        if (file_exists($file)) 
+        {
             require_once $file;
             $this->controller = new $this->controller;
             call_user_func_array([$this->controller, $this->method], $this->params);
-        } else {
+        } 
+        else 
+        {
             echo "Controller not found.";
         }
     }
