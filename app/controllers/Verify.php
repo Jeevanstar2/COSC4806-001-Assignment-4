@@ -1,8 +1,6 @@
 <?php
-
 class Verify extends Controller {
     public function index(): void {
-
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: index.php?action=login");
             exit();
@@ -12,7 +10,6 @@ class Verify extends Controller {
         $pw    = $_POST['password'] ?? '';
         $userM = $this->model('User');
 
-        // Lockout logic
         $lastFail = $userM->getLastFailed($u);
         if ($lastFail && time() < strtotime($lastFail) + 60) {
             $wait = (strtotime($lastFail) + 60) - time();
@@ -33,7 +30,6 @@ class Verify extends Controller {
             return;
         }
 
-        // SUCCESS
         $userM->recordLoginAttempt($u, 'good');
         $_SESSION['user_id']    = $user['ID'];
         $_SESSION['username']   = $user['Username'];

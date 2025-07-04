@@ -1,13 +1,11 @@
 <?php
 class Home extends Controller {
-    public function index() {
-        
-        $username  = $_SESSION['username']   ?? 'Guest';
-        $loginTime = $_SESSION['login_time'] ?? null;
+    public function index(): void {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit();
+        }
 
-        $this->view('home/index', [
-            'username'  => $username,
-            'loginTime' => $loginTime
-        ]);
+        $this->view('home/index');
     }
 }

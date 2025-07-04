@@ -1,22 +1,18 @@
 <?php
-require_once __DIR__ . '/../models/ReminderModel.php';
-
 class Reminder extends Controller {
     private $reminder;
 
     public function __construct() {
-        session_start();
-        if (!isset($_SESSION['USER'])) {
+        if (!isset($_SESSION['user_id'])) {
             header("Location: index.php?action=login");
             exit();
         }
 
-        $this->reminder = new ReminderModel(); // Use your model directly
+        $this->reminder = $this->model('Reminder');
     }
 
     public function index() {
-        $user_id = $_SESSION['USER']['id'];
-        $data['reminders'] = $this->reminder->getAllByUser($user_id);
+        $data['reminders'] = $this->reminder->getAllByUser($_SESSION['user_id']);
         $this->view('reminders/index', $data);
     }
 
@@ -25,31 +21,27 @@ class Reminder extends Controller {
     }
 
     public function store() {
-        $user_id = $_SESSION['USER']['id'];
         $subject = trim($_POST['subject']);
         if ($subject) {
-            $this->reminder->create($user_id, $subject);
+            $this->reminder->create($_SESSION['user_id'], $subject);
         }
         header("Location: index.php?action=reminder");
     }
 
     public function edit($id) {
-        $user_id = $_SESSION['USER']['id'];
-        $reminder = $this->reminder->get($id, $user_id);
-        if (!$reminder) die("Reminder not found or unauthorized.");
+        $reminder = $this->reminder->get($id, $_SESSION['user_id']);
+        if (!$reminder) die("Reminder not found.");
         $this->view('reminders/edit', ['reminder' => $reminder]);
     }
 
     public function update($id) {
-        $user_id = $_SESSION['USER']['id'];
         $subject = trim($_POST['subject']);
-        $this->reminder->update($id, $user_id, $subject);
+        $this->reminder->update($id, $_SESSION['user_id'], $subject);
         header("Location: index.php?action=reminder");
     }
 
     public function delete($id) {
-        $user_id = $_SESSION['USER']['id'];
-        $this->reminder->delete($id, $user_id);
+        $this->reminder->delete($id, $_SESSION['user_id']);
         header("Location: index.php?action=reminder");
     }
 }

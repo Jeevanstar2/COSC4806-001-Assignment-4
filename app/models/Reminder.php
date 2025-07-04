@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../database.php';
 
-class ReminderModel {
+class Reminder {
     private $db;
 
     public function __construct() {
@@ -14,7 +14,7 @@ class ReminderModel {
     }
 
     public function getAllByUser($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM reminders WHERE user_id = :uid ORDER BY id DESC");
+        $stmt = $this->db->prepare("SELECT * FROM reminders WHERE user_id = :uid");
         $stmt->execute(['uid' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

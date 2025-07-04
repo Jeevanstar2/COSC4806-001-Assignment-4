@@ -42,16 +42,4 @@ class User {
         $stmt->execute(['u' => $u]);
         return $stmt->fetchColumn();
     }
-
-    public function countRecentFails(string $u, int $secondsAgo) {
-        $since = date('Y-m-d H:i:s', time() - $secondsAgo);
-        $stmt = $this->db->prepare(
-            "SELECT COUNT(*) FROM login_log
-             WHERE username = :u
-               AND status = 'bad'
-               AND timestamp >= :since"
-        );
-        $stmt->execute(['u' => $u, 'since' => $since]);
-        return (int)$stmt->fetchColumn();
-    }
 }
