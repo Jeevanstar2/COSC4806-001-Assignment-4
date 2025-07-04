@@ -12,7 +12,7 @@ function db_connect()
         $port = 61000;
         $dbname = 'COSC4806001JS2_figurewhom';
         $user = 'COSC4806001JS2_figurewhom';
-        $pass = '3d3609d66a573a2d6fbfc82643ef3b46b035d711';
+        $pass = getenv('password');
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
