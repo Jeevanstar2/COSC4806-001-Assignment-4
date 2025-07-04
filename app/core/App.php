@@ -1,38 +1,76 @@
 <?php
 class App {
-    protected $controller = 'Login';
+    protected $controller = 'Home';
     protected $method = 'index';
     protected $params = [];
 
     public function __construct() {
         $action = $_GET['action'] ?? 'login';
 
-        $routes = [
-            'login' => ['Login', 'index'],
-            'verify' => ['Verify', 'index'],
-            'register' => ['Register', 'index'],
-            'store' => ['Register', 'store'],
-            'logout' => ['Logout', 'index'],
-            'home' => ['Home', 'index'],
-            'reminders' => ['Reminder', 'index'],
-            'reminder_create' => ['Reminder', 'create'],
-            'reminder_store' => ['Reminder', 'store'],
-            'reminder_edit' => ['Reminder', 'edit'],
-            'reminder_update' => ['Reminder', 'update'],
-            'reminder_delete' => ['Reminder', 'delete']
-        ];
-
-        if (isset($routes[$action])) {
-            [$this->controller, $this->method] = $routes[$action];
+        switch ($action) {
+            case 'login':
+                $this->controller = 'Login';
+                $this->method = 'index';
+                break;
+            case 'verify':
+                $this->controller = 'Verify';
+                $this->method = 'index';
+                break;
+            case 'register':
+                $this->controller = 'Register';
+                $this->method = 'index';
+                break;
+            case 'store':
+                $this->controller = 'Register';
+                $this->method = 'store';
+                break;
+            case 'logout':
+                $this->controller = 'Logout';
+                $this->method = 'index';
+                break;
+            case 'home':
+                $this->controller = 'Home';
+                $this->method = 'index';
+                break;
+            case 'reminder':
+                $this->controller = 'Reminder';
+                $this->method = 'index';
+                break;
+            case 'reminder_create':
+                $this->controller = 'Reminder';
+                $this->method = 'create';
+                break;
+            case 'reminder_store':
+                $this->controller = 'Reminder';
+                $this->method = 'store';
+                break;
+            case 'reminder_edit':
+                $this->controller = 'Reminder';
+                $this->method = 'edit';
+                $this->params[] = $_GET['id'] ?? null;
+                break;
+            case 'reminder_update':
+                $this->controller = 'Reminder';
+                $this->method = 'update';
+                $this->params[] = $_GET['id'] ?? null;
+                break;
+            case 'reminder_delete':
+                $this->controller = 'Reminder';
+                $this->method = 'delete';
+                $this->params[] = $_GET['id'] ?? null;
+                break;
+            default:
+                echo "404 Not Found";
+                return;
         }
 
-        require_once "app/controllers/{$this->controller}.php";
-        $this->controller = new $this->controller;
-
-        if (method_exists($this->controller, $this->method)) {
-            call_user_func_array([$this->controller, $this->method], []);
+        $file = 'app/controllers/' . $this->controller . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            $this->controller = new $this->controller;
+            call_user_func_array([$this->controller, $this->method], $this->params);
         } else {
-            echo "404 Not Found";
+            echo "Controller not found.";
         }
     }
 }

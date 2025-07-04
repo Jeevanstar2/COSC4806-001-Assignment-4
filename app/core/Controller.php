@@ -1,21 +1,26 @@
 <?php
-
 class Controller {
-    // Load model from /app/models/
     public function model($model) {
-        require_once MODELS . $model . '.php';
-        return new $model();
+        $path = MODELS . $model . '.php';
+        if (file_exists($path)) {
+            require_once $path;
+            return new $model();
+        }
+        die("Model $model not found.");
     }
 
-    // Load view from /app/views/
     public function view($view, $data = []) {
         extract($data);
-        require_once VIEWS . $view . '.php';
+        $viewPath = VIEWS . str_replace('/', DS, $view) . '.php';
+        if (file_exists($viewPath)) {
+            require $viewPath;
+        } else {
+            die("View $view not found.");
+        }
     }
 
-    // Simple redirect
     public function redirect($url) {
         header("Location: $url");
-        exit();
+        exit;
     }
 }
