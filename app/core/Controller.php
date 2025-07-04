@@ -1,32 +1,19 @@
 <?php
-class Controller 
-{
-    public function model($model) 
-    {
-        $path = MODELS . $model . '.php';
-        if (file_exists($path)) 
-        {
-            require_once $path;
-            return new $model();
-        }
-        die("Model $model not found.");
+class Controller {
+    public function __construct() {}
+
+    protected function model(string $modelName) {
+        require_once MODELS . DS . $modelName . '.php';
+        return new $modelName;
     }
-    public function view($view, $data = []) 
-    {
+
+    protected function view(string $viewPath, array $data = []) {
         extract($data);
-        $viewPath = VIEWS . str_replace('/', DS, $view) . '.php';
-        if (file_exists($viewPath)) 
-        {
-            require $viewPath;
-        } 
-        else 
-        {
-            die("View $view not found.");
-        }
+        require_once VIEWS . DS . str_replace('/', DS, $viewPath) . '.php';
     }
-    public function redirect($url) 
-    {
-        header("Location: $url");
+
+    protected function redirect(string $url) {
+        header("Location: {$url}");
         exit;
     }
 }

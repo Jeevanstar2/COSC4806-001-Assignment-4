@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Reminders</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1024">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <title>My Reminders</title>
 </head>
 <body>
-    <h2>Your Reminders</h2>
 
-    <a href="index.php?action=create_reminder" class="button">Add New Reminder</a>
+  <div class="container">
+    <h2>My Reminders</h2>
 
-    <?php if (!empty($reminders)): ?>
-        <?php foreach ($reminders as $reminder): ?>
-            <div class="reminder-box">
-                <strong><?= htmlspecialchars($reminder['subject']) ?></strong><br>
-                <small>Created at: <?= $reminder['created_at'] ?></small><br>
-                <small>Status: <?= $reminder['status'] ?></small><br>
-                <?php if (!empty($reminder['deleted_at'])): ?>
-                    <small>Deleted at: <?= $reminder['deleted_at'] ?></small><br>
-                <?php endif; ?>
+    <p style="text-align:center;">
+      <a class="button-link" href="/reminders/create">+ Add Reminder</a>
+    </p>
 
-                <a href="index.php?action=edit_reminder&id=<?= $reminder['id'] ?>" class="button">Edit</a>
-                <a href="index.php?action=delete_reminder&id=<?= $reminder['id'] ?>" class="button" onclick="return confirm('Are you sure you want to delete this reminder?');">Delete</a>
-            </div>
-        <?php endforeach; ?>
+    <?php if (empty($notes)): ?>
+      <p style="text-align:center;">No reminders found.</p>
     <?php else: ?>
-        <p>You have no reminders yet.</p>
+      <ul class="reminder-list">
+        <?php foreach ($notes as $note): ?>
+          <li>
+            <?= htmlspecialchars($note['subject']) ?>
+            <?php if (!$note['completed']): ?>
+              <a href="/reminders/complete/<?= $note['id'] ?>">[Complete]</a>
+            <?php else: ?>
+              <span class="completed">[Completed]</span>
+            <?php endif; ?>
+            <a href="/reminders/delete/<?= $note['id'] ?>" onclick="return confirm('Delete this reminder?')">[Delete]</a>
+          </li>
+        <?php endforeach; ?>
+      </ul>
     <?php endif; ?>
 
-    <p><a href="index.php?action=home">Back to Home</a></p>
+    <div style="text-align:center; margin-top: 2rem;">
+      <a class="button-link" href="/home">Back to Home</a>
+    </div>
+  </div>
+
 </body>
 </html>

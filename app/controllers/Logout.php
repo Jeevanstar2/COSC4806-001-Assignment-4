@@ -1,10 +1,8 @@
 <?php
-class Logout extends Controller 
-{
-    public function index(): void 
-    {
+class Logout extends Controller {
+    public function index(): void {
+        $_SESSION = [];
         session_destroy();
-        header("Location: index.php?action=login");
-        exit();
+        $this->redirect('/login');
     }
 }

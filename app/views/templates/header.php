@@ -1,6 +1,7 @@
-<?php if (isset($_SESSION['USER'])): ?>
-    <a href="index.php?action=reminder">Reminders</a>
-<?php endif; 
+<?php
+if (!isset($_SESSION['auth'])) {
+    header('Location: /login');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

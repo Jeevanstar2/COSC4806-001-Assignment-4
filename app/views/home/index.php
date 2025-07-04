@@ -1,13 +1,25 @@
+<?php
+$username   = $username   ?? 'User';
+$loginTime  = $loginTime  ?? '';
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1024">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
-    <h2>Welcome, <?= htmlspecialchars($_SESSION['username']) ?>!</h2>
+  <div class="container home-center">
+    <h2>Hello, <?= htmlspecialchars($username) ?>!</h2>
 
-    <p><a href="index.php?action=reminder">Manage Reminders</a></p>
-    <p><a href="index.php?action=logout">Logout</a></p>
+    <?php if ($loginTime): ?>
+      <p>You logged in at <?= date('F j, Y \a\t g:i A', strtotime($loginTime)) ?></p>
+    <?php endif; ?>
+
+    <p><a class="button-link" href="/reminders">View Your Reminders</a></p>
+    <p><a class="button-link" href="/logout">Logout</a></p>
+  </div>
 </body>
 </html>

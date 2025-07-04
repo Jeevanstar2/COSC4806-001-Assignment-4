@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Reminder</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1024">
+  <title>Create Reminder</title>
+  <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
-    <h2>Create a New Reminder</h2>
+  <div class="container">
+    <h2>Create a Reminder</h2>
 
-    <form method="POST" action="index.php?action=store_reminder">
-        <label for="subject">Subject:</label>
-        <input type="text" name="subject" id="subject" required>
+    <?php if (!empty($error)): ?>
+      <p class="error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 
-        <button type="submit">Save Reminder</button>
+    <form method="post" action="/reminders/create">
+      <label>Subject</label>
+      <input
+        type="text"
+        name="subject"
+        required
+        value="<?= htmlspecialchars($subject ?? '') ?>"
+      >
+      <button type="submit">Save</button>
     </form>
 
-    <p><a href="index.php?action=reminder">Back to Reminders</a></p>
+    <p><a href="/reminders">Back to list</a></p>
+  </div>
+
+  </script>
 </body>
 </html>
