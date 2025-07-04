@@ -1,10 +1,9 @@
 <?php
-if (headers_sent($file, $line)) {
-    die("Headers already sent in $file on line $line");
-}
 
 class Verify extends Controller {
     public function index(): void {
+        ob_start(); // Start output buffering
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: index.php?action=login");
             exit();
@@ -14,7 +13,6 @@ class Verify extends Controller {
         $pw    = $_POST['password'] ?? '';
         $userM = $this->model('User');
 
-        // Check last failed attempt
         $lastFail = $userM->getLastFailed($u);
         if ($lastFail && time() < strtotime($lastFail) + 60) {
             $wait = (strtotime($lastFail) + 60) - time();
